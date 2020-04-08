@@ -10,7 +10,7 @@ fi
 INPUT_PATH=$1
 OUTPUT_PATH=$2
 
-[ ! -d "$OUTPUT_PATH" ] && echo "Output path does not exists." && exit
+[ ! -d "$OUTPUT_PATH" ] && echo "Output path does not exist." && exit
 
 for FILE_NAME in `ls "$INPUT_PATH"`
 do
