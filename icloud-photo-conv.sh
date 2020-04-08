@@ -14,7 +14,6 @@ OUTPUT_PATH=$2
 
 for FILE_NAME in `ls "$INPUT_PATH"`
 do
-  #CREATED_DATE=$(mdls -name kMDItemContentCreationDate "$INPUT_PATH/$FILE_NAME" -raw)
   CREATED_DATE=$(exiftool -s -s -s -createdate "$INPUT_PATH/$FILE_NAME")
 
   if [ -z "$CREATED_DATE" ]
@@ -25,19 +24,19 @@ do
     NEW_SUB_DIR_NAME=$(date -j -f %Y:%m:%d\ %H:%M:%S "$CREATED_DATE" +%Y-%m)
     NEW_FILE_NAME="$(date -j -f %Y:%m:%d\ %H:%M:%S "$CREATED_DATE" +%Y%m%d-%H%m%S)-$(echo $FILE_NAME | md5 | cut -c1-8)"
   fi
-
-  [ -d "$OUTPUT_PATH/$NEW_SUB_DIR_NAME" ] || mkdir "$OUTPUT_PATH/$NEW_SUB_DIR_NAME"
-  EXTENTION=$(echo $FILE_NAME | awk -F . '{print $NF}' | tr '[:lower:]' '[:upper:]')
+  EXTENSION=$(echo $FILE_NAME | awk -F . '{print $NF}' | tr '[:lower:]' '[:upper:]')
 
   echo "Processing $FILE_NAME..."
 
-  if [ $EXTENTION = "HEIC" ]
+  [ -d "$OUTPUT_PATH/$NEW_SUB_DIR_NAME" ] || mkdir "$OUTPUT_PATH/$NEW_SUB_DIR_NAME"
+
+  if [ $EXTENSION = "HEIC" ]
   then
     magick convert "$INPUT_PATH/$FILE_NAME" "$OUTPUT_PATH/$NEW_SUB_DIR_NAME/$NEW_FILE_NAME.JPG"
-  elif [ $EXTENTION = "MOV" ]
+  elif [ $EXTENSION = "MOV" ]
   then
     ffmpeg -y -hide_banner -loglevel panic -threads 4 -i "$INPUT_PATH/$FILE_NAME" -map_metadata 0 -c copy -c:a aac "$OUTPUT_PATH/$NEW_SUB_DIR_NAME/$NEW_FILE_NAME.MP4"
   else
-    cp "$INPUT_PATH/$FILE_NAME" "$OUTPUT_PATH/$NEW_SUB_DIR_NAME/$NEW_FILE_NAME.$EXTENTION"
+    cp "$INPUT_PATH/$FILE_NAME" "$OUTPUT_PATH/$NEW_SUB_DIR_NAME/$NEW_FILE_NAME.$EXTENSION"
   fi
 done
