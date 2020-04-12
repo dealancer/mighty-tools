@@ -13,7 +13,7 @@ OUTPUT_PATH=$2
 [ ! -d "$OUTPUT_PATH" ] && echo "Output path does not exist." && exit
 
 IFS=$'\n'
-for FILE_NAME in `ls "$INPUT_PATH" | sed -n '1!p'`
+for FILE_NAME in `ls "$INPUT_PATH"`
 do
   CREATED_DATE=$(exiftool -s -s -s -createdate "$INPUT_PATH/$FILE_NAME")
 
@@ -40,4 +40,5 @@ do
   else
     cp "$INPUT_PATH/$FILE_NAME" "$OUTPUT_PATH/$NEW_SUB_DIR_NAME/$NEW_FILE_NAME.$EXTENSION"
   fi
+  exiftool -TagsFromFile "$INPUT_PATH/$FILE_NAME" "-all:all>all:all" "$OUTPUT_PATH/$NEW_SUB_DIR_NAME/$NEW_FILE_NAME.MP4" -overwrite_original
 done
