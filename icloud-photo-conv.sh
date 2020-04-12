@@ -1,5 +1,5 @@
-#/bin/sh
-set -e
+#!/bin/sh
+# set -e
 
 if [ $# -eq 0 ]
 then
@@ -12,19 +12,20 @@ OUTPUT_PATH=$2
 
 [ ! -d "$OUTPUT_PATH" ] && echo "Output path does not exist." && exit
 
-for FILE_NAME in `ls "$INPUT_PATH"`
+IFS=$'\n'
+for FILE_NAME in `ls "$INPUT_PATH" | sed -n '1!p'`
 do
   CREATED_DATE=$(exiftool -s -s -s -createdate "$INPUT_PATH/$FILE_NAME")
 
   if [ -z "$CREATED_DATE" ]
   then
     NEW_SUB_DIR_NAME="_nodate"
-    NEW_FILE_NAME="$(echo $FILE_NAME | md5 | cut -c1-8)"
+    NEW_FILE_NAME="$(echo "$FILE_NAME" | md5 | cut -c1-8)"
   else
     NEW_SUB_DIR_NAME=$(date -j -f %Y:%m:%d\ %H:%M:%S "$CREATED_DATE" +%Y-%m)
-    NEW_FILE_NAME="$(date -j -f %Y:%m:%d\ %H:%M:%S "$CREATED_DATE" +%Y%m%d-%H%m%S)-$(echo $FILE_NAME | md5 | cut -c1-8)"
+    NEW_FILE_NAME="$(date -j -f %Y:%m:%d\ %H:%M:%S "$CREATED_DATE" +%Y%m%d-%H%m%S)-$(echo "$FILE_NAME" | md5 | cut -c1-8)"
   fi
-  EXTENSION=$(echo $FILE_NAME | awk -F . '{print $NF}' | tr '[:lower:]' '[:upper:]')
+  EXTENSION=$(echo "$FILE_NAME" | awk -F . '{print $NF}' | tr '[:lower:]' '[:upper:]')
 
   echo "Processing $FILE_NAME..."
 
