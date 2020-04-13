@@ -1,7 +1,7 @@
 #!/bin/sh
 # set -e
 
-if [ $# -eq 0 ]
+if [[ $# -eq 0 || $# -eq 1 ]]
 then
   echo "usage: ./icloud-photo-conv.sh input-path output-path"
   exit
