@@ -23,16 +23,13 @@ Use `homebrew` to install these depdencies.
 
 ## Duplicate finder
 
+It's very simple script. For a better results, use Duplicate Photos Finder app for MacOS.
+
 ### Usage
 ```
-./duplicate-finder.sh path
+./dupe-finder.sh path
 ```
 
 ### Features
-* Finds all duplicates in the specific path.
-
-
-
-
-
-
+* Finds all duplicated files in the specific path.
+* Ignores files that have differnt metadata but same content.
