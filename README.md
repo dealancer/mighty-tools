@@ -21,6 +21,15 @@ Use `homebrew` to install these depdencies.
 * Uses creation date as a filename.
 * Categorizes files into directories by year and month.
 
+## Duplicate finder
+
+### Usage
+```
+./duplicate-finder.sh path
+```
+
+### Features
+* Finds all duplicates in the specific path.
 
 
 
