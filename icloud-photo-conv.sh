@@ -15,9 +15,11 @@ OUTPUT_PATH=$2
 IFS=$'\n'
 for FILE_NAME in `ls "$INPUT_PATH"`
 do
+  echo "Processing $FILE_NAME..."
+
   CREATED_DATE=$(exiftool -s -s -s -createdate "$INPUT_PATH/$FILE_NAME")
 
-  if [ -z "$CREATED_DATE" ]
+  if [ -z "$CREATED_DATE" -o "$CREATED_DATE" == "0000:00:00 00:00:00" ]
   then
     NEW_SUB_DIR_NAME="_nodate"
     NEW_FILE_NAME="$(echo "$FILE_NAME" | md5 | cut -c1-8)"
@@ -25,9 +27,8 @@ do
     NEW_SUB_DIR_NAME=$(date -j -f %Y:%m:%d\ %H:%M:%S "$CREATED_DATE" +%Y-%m)
     NEW_FILE_NAME="$(date -j -f %Y:%m:%d\ %H:%M:%S "$CREATED_DATE" +%Y%m%d-%H%m%S)-$(echo "$FILE_NAME" | md5 | cut -c1-8)"
   fi
-  EXTENSION=$(echo "$FILE_NAME" | awk -F . '{print $NF}' | tr '[:lower:]' '[:upper:]')
 
-  echo "Processing $FILE_NAME..."
+  EXTENSION=$(echo "$FILE_NAME" | awk -F . '{print $NF}' | tr '[:lower:]' '[:upper:]')
 
   [ -d "$OUTPUT_PATH/$NEW_SUB_DIR_NAME" ] || mkdir "$OUTPUT_PATH/$NEW_SUB_DIR_NAME"
 
