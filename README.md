@@ -21,7 +21,8 @@ Use `homebrew` to install these depdencies.
 * Uses creation date as a filename.
 * Categorizes files into directories by year and month.
 
-## Duplicate finder
+
+## Duplicates finder
 
 It's very simple script. For a better results, use Duplicate Photos Finder app for MacOS.
 
@@ -33,3 +34,22 @@ It's very simple script. For a better results, use Duplicate Photos Finder app f
 ### Features
 * Finds all duplicated files in the specific path.
 * Ignores files that have differnt metadata but same content.
+* Scans path recursively.
+
+
+## Metadata cleaner
+
+
+### Dependencies
+* `exiftool`
+
+Use `homebrew` to install these depdencies.
+
+### Usage
+```
+./metadata-cleaner.sh path
+```
+
+### Features
+* Removes all metadata from files in directory.
+* Scans path recursively.
