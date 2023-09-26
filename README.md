@@ -9,7 +9,7 @@
 
 ### Dependencies
 * `exiftool`
-* `magick`
+* `magick` (ImageMagick)
 * `ffmpeg`
 
 Use `homebrew` to install these depdencies.
